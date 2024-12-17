@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Anne</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #FFFBF0;
+            color: #FF69B4;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scrollbars */
+        }
+
+        h1 {
+            font-size: 50px;
+            font-weight: bold;
+            color: #FF1493;
+            text-shadow: 2px 2px 10px rgba(255, 105, 180, 0.7);
+            margin-bottom: 30px;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        /* Message box styling */
+        p {
+            font-size: 20px;
+            color: #FF1493;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 105, 180, 0.1);
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.3);
+            line-height: 1.8;
+            white-space: pre-wrap; /* Preserve spaces and line breaks */
+        }
+
+        /* Heart animation */
+        .heart {
+            font-size: 30px;
+            color: #FF1493;
+            animation: heartbeat 1.5s infinite alternate;
+        }
+
+        /* Floating emojis */
+        .emoji-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 30px;
+            animation: fall 5s infinite ease-in;
+            opacity: 0;
+        }
+
+        /* Button */
+        .love-button {
+            display: none; /* Hidden initially */
+            background-color: #FF1493;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 10px rgba(255, 20, 147, 0.5);
+            margin: 30px auto;
+        }
+
+        .love-button:hover {
+            background-color: #FF69B4;
+            box-shadow: 0 10px 20px rgba(255, 20, 147, 0.7);
+        }
+
+        /* Animations */
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 2px 2px 10px rgba(255, 105, 180, 0.7);
+            }
+            100% {
+                text-shadow: 2px 2px 20px rgba(255, 105, 180, 1);
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>To My Dearest Baby Anne 💖</h1>
+
+    <!-- Emoji rain container -->
+    <div class="emoji-rain"></div>
+
+    <!-- Paragraph where the text will be typed -->
+    <p id="message"></p>
+
+    <!-- Heart emoji -->
+    <div class="heart">💖</div>
+
+    <!-- Love button -->
+    <button id="loveButton" class="love-button" onclick="alert('I love you, Anne! 💖')">Click for Love</button>
+
+    <script>
+        const messageElement = document.getElementById('message');
+        const loveButton = document.getElementById('loveButton');
+        const emojiRain = document.querySelector('.emoji-rain');
+
+        const messageText = `
+Hey, you, Anne Vela, my baby, and my happy pill. Happy-happy monthsary sa atin. Only a few days left before this year ends, pero you’re still making this year as colorful as it gets. I know, and lagi ko naman sinasabi sa’yo, that I have a lot of flaws, so I want to formally say sorry for the endurance, suffering, and nights you went to sleep crying. This year wouldn’t have been memorable and tolerable without you, my number one support in life. We still have a long journey to go, and my only wish for us during this rough, fun, memorable, and probably the most important journey we’d have before we tie ourselves for life, is to always see happiness in everything. Yes, mahirap talagang maging LDR, especially since we are in our college life na, pero you’re making it too easy para sa akin at sa atin, kaya thankful ako sa’yo sobra na ikaw yung babaeng hindi naman mahirap mahalin. Sometimes I’m doubting if you’re settling for less just to survive this phase and keep our relationship, or ganun ka lang talaga kababaw na tao pagdating sa akin, na kahit konting effort ko lang, sobrang appreciative mo at matutuwa ka na agad. Kaya, thank you dahil nanalo ako ng jackpot sa buhay. Meron na ako ngayong isang matalino, masipag, maintindihin, at may pangarap sa buhay na magiging katuwang ko sa mga magdadaang dekada. Please always take care of your health! That’s the biggest investment we have for our future life and kids. Hehe, mababaliwala lahat ng ‘to kung magkakasakit ka nang malala. I love you and happy monthsary again, baby Anne 💖
+        `;
+
+        let index = 0;
+
+        // Falling emojis
+        const emojis = ['💖', '💓', '💞', '💕', '❤️', '💘'];
+        function createEmoji() {
+            const emoji = document.createElement('span');
+            emoji.classList.add('emoji');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.animationDuration = Math.random() * 2 + 3 + 's';
+            emojiRain.appendChild(emoji);
+
+            setTimeout(() => {
+                emoji.remove();
+            }, 5000);
+        }
+
+        setInterval(createEmoji, 300);
+
+        // Typing effect
+        function typeMessage() {
+            if (index < messageText.length) {
+                messageElement.textContent += messageText.charAt(index);
+                index++;
+                setTimeout(typeMessage, 50);
+            } else {
+                loveButton.style.display = 'block';
+            }
+        }
+
+        window.onload = () => {
+            typeMessage();
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anne Baby</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #FFFAF0;
+            color: #FF69B4;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(255, 105, 180, 0.7);
+        }
+
+        .button {
+            padding: 20px 40px;
+            font-size: 22px;
+            color: white;
+            background-color: #FF1493;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+        }
+
+        .button:hover {
+            background-color: #FF69B4;
+            transform: scale(1.2) rotate(5deg);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.7);
+        }
+
+        .button:active {
+            background-color: #FF1493;
+            transform: scale(1);
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.5);
+        }
+
+        #loading-container {
+            margin-top: 30px;
+            display: none;
+            font-size: 20px;
+            color: #FF1493;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 15px;
+            margin-top: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background-color: #FF1493;
+            border-radius: 15px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-number {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF1493;
+        }
+
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #FF1493;
+        }
+
+        .sweet-heart {
+            font-size: 16px;
+            color: #FF69B4;
+            text-shadow: 1px 1px 5px rgba(255, 105, 180, 0.7);
+        }
+
+        /* Emojis falling */
+        .emoji {
+            position: absolute;
+            font-size: 30px;
+            animation: fall 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome, My Sweet Anne Baby!</h1>
+    <button class="button" id="loadButton">Click me to load</button>
+
+    <div id="loading-container">
+        <p class="message">Loading... Just for you, my love!</p>
+        <div class="loading-bar">
+            <div class="progress" id="progress"></div>
+            <div class="progress-number" id="progressNumber">0%</div>
+        </div>
+        <p class="sweet-heart">Get ready for some sweetness!</p>
+    </div>
+
+    <!-- Emojis for raining effect -->
+    <div id="emoji-container"></div>
+
+    <script>
+        document.getElementById('loadButton').addEventListener('click', function() {
+            // Show the loading bar and hide the button
+            document.getElementById('loading-container').style.display = 'block';
+            document.getElementById('loadButton').style.display = 'none'; 
+
+            // Create random emojis falling
+            const emojiContainer = document.getElementById('emoji-container');
+            const emojis = ['💖', '🍭', '🎂', '🍒', '🍬', '✨', '💫', '🌸', '🧁'];
+            
+            // Function to create falling emojis
+            function createFallingEmoji() {
+                const emoji = document.createElement('div');
+                emoji.classList.add('emoji');
+                emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                const startPositionX = Math.random() * window.innerWidth;
+                emoji.style.left = `${startPositionX}px`;
+                emoji.style.animationDuration = `${Math.random() * 2 + 3}s`; // Randomize falling speed
+                emojiContainer.appendChild(emoji);
+
+                // Remove emoji after animation ends
+                setTimeout(() => {
+                    emoji.remove();
+                }, 3000);
+            }
+
+            // Create falling emojis every 200ms
+            const emojiInterval = setInterval(createFallingEmoji, 200);
+
+            let progress = 0;
+            let progressInterval = setInterval(function() {
+                progress += 5; // Increase the progress by 5%
+                document.getElementById('progress').style.width = progress + '%';
+                document.getElementById('progressNumber').innerText = progress + '%';
+
+                // When progress reaches 100%, clear the interval and redirect
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    clearInterval(emojiInterval); // Stop raining emojis
+                    setTimeout(function() {
+                        window.location.href = './pages/greetingPage.html'; // Redirect to the greeting page
+                    }, 500); // Add a small delay before redirect
+                }
+            }, 150); // Progress increases every 150ms
+        });
+    </script>
+
+</body>
+</html>
